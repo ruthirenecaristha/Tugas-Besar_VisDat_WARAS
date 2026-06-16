@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EV Indonesia: Tren Melesat, Tantangan Nyata | Kelas: DS-48-02</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-dark:   #092B31;
+    --green-mid:    #1D4E5B;
+    --green-light:  #1D8A92;
+    --teal:         #57767A;
+    --amber:        #E09FA0;
+    --red:          #9D4341;
+    --gray-dark:    #092B31;
+    --gray-mid:     #7E9C9F;
+    --gray-light:   #DBEAEB;
+    --gray-border:  #B7D8DD;
+    --white:        #FFFFFF;
+    --bg:           #F3F4F7;
+    --card-bg:      #FFFFFF;
+    --text-primary: #092B31;
+    --text-secondary: #1D4E5B;
+    --text-muted:   #57767A;
+    --radius-sm:    6px;
+    --radius-md:    10px;
+    --radius-lg:    16px;
+    --shadow-sm:    0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md:    0 4px 12px rgba(0,0,0,0.08);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ─────────────────────────────── */
+  .site-header {
+    background: var(--green-dark);
+    color: white;
+    padding: 2rem 0 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.025) 40px,
+      rgba(255,255,255,0.025) 41px
+    );
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  .group-info {
+    font-size: 13px;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+    background: rgba(0,0,0,0.15);
+    padding: 12px 16px;
+    border-radius: 8px;
+    display: inline-block;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .badge-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.85);
+  }
+  .site-header h1 {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+    color: white;
+  }
+  .site-header h1 span { color: #9DBBBF; }
+  .header-sub {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 1.75rem;
+    max-width: 560px;
+  }
+
+  /* hero metrics strip */
+  .hero-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1px;
+    background: rgba(255,255,255,0.12);
+    border-top: 1px solid rgba(255,255,255,0.15);
+    margin-top: 0.5rem;
+  }
+  .hero-metric {
+    padding: 1rem 1.25rem;
+    background: rgba(0,0,0,0.12);
+  }
+  .hero-metric-val {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #9DBBBF;
+    line-height: 1.1;
+  }
+  .hero-metric-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+
+  /* ── MAIN LAYOUT ─────────────────────────── */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* ── TAB NAV ─────────────────────────────── */
+  .tab-nav {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 1.75rem;
+    padding: 6px;
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--gray-border);
+    box-shadow: var(--shadow-sm);
+  }
+  .tab-btn {
+    padding: 9px 18px;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-md);
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.18s;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .tab-btn:hover { background: var(--gray-light); color: var(--text-primary); }
+  .tab-btn.active { background: var(--green-dark); color: white; }
+  .tab-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+  /* ── SECTIONS ────────────────────────────── */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ── METRIC CARDS ────────────────────────── */
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+  .metric-card {
+    background: var(--card-bg);
+    border: 1px solid var(--gray-border);
+    border-radius: var(--radius-md);
+    padding: 1.1rem 1.25rem;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+  }
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--green-light);
+  }
+  .metric-card.amber::before { background: var(--amber); }
+  .metric-card.red::before   { background: var(--red); }
+  .metric-card.teal::before  { background: var(--teal); }
+  .metric-label {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+  }
+  .metric-value {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.1;
+  }
+  .metric-sub {
+    font-size: 11.5px;
+    color: var(--green-mid);
+    margin-top: 5px;
+    font-weight: 500;
+  }
+  .metric-sub.warn { color: var(--amber); }
+
+  /* ── CHART CARDS ─────────────────────────── */
+  .chart-card {
+    background: var(--card-bg);
+    border: 1px solid var(--gray-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .chart-header { margin-bottom: 1rem; }
+  .chart-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 3px;
+  }
+  .chart-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+  }
+  .legend-swatch {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  .canvas-wrap { position: relative; width: 100%; }
+
+  /* ── HORIZONTAL BAR CHARTS ───────────────── */
+  .hbar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 11px;
+  }
+  .hbar-label {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    min-width: 170px;
+    flex-shrink: 0;
+  }
+  .hbar-track {
+    flex: 1;
+    background: var(--gray-light);
+    border-radius: 5px;
+    height: 28px;
+    overflow: hidden;
+  }
+  .hbar-fill {
+    height: 100%;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    min-width: 44px;
+    transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* ── COMPARISON BARS ─────────────────────── */
+  .cmp-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .cmp-country {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    min-width: 95px;
+  }
+  .cmp-track {
+    flex: 1;
+    background: var(--gray-light);
+    border-radius: 5px;
+    height: 32px;
+    overflow: hidden;
+  }
+  .cmp-fill {
+    height: 100%;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: white;
+    transition: width 0.8s ease;
+  }
+
+  /* ── DONUT ───────────────────────────────── */
+  .donut-wrap {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .donut-canvas-wrap { flex-shrink: 0; }
+  .donut-detail p { font-size: 13px; color: var(--text-secondary); margin-bottom: 3px; }
+  .donut-num {
+    font-family: 'Sora', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+    display: block;
+    margin-bottom: 14px;
+  }
+
+  /* ── PROGRESS BARS ───────────────────────── */
+  .prog-block { margin-bottom: 1.4rem; }
+  .prog-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+  .prog-gap { color: var(--red); font-weight: 600; }
+  .prog-track {
+    background: var(--gray-light);
+    border-radius: 6px;
+    height: 32px;
+    overflow: hidden;
+    position: relative;
+  }
+  .prog-fill {
+    height: 100%;
+    background: var(--green-light);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    min-width: 50px;
+    transition: width 0.9s ease;
+  }
+  .prog-target {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 11.5px;
+    color: var(--text-muted);
+  }
+
+  /* ── REC CARDS ───────────────────────────── */
+  .rec-card {
+    background: var(--card-bg);
+    border: 1px solid var(--gray-border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s;
+  }
+  .rec-card:hover { box-shadow: var(--shadow-md); }
+  .rec-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Sora', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .rec-body h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+  }
+  .rec-body p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ── SECTION HEADING ─────────────────────── */
+  .section-heading {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 1.75rem 0 1rem;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--gray-border);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── SOURCE FOOTER ───────────────────────── */
+  .source-note {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-top: 1rem;
+    padding-top: 10px;
+    border-top: 1px dashed var(--gray-border);
+  }
+
+  /* ── SITE FOOTER ─────────────────────────── */
+  .site-footer {
+    background: var(--gray-dark);
+    color: rgba(255,255,255,0.55);
+    text-align: center;
+    font-size: 12px;
+    padding: 1.5rem;
+    line-height: 1.8;
+  }
+
+  /* ── CONTEXT BAND ────────────────────────── */
+  .context-band {
+    background: linear-gradient(135deg, #DBEAEB 0%, #B7D8DD 100%);
+    border: 1px solid #9DBBBF;
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .context-item { flex: 1; min-width: 180px; }
+  .context-item .big-num {
+    font-family: 'Sora', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .context-item p { font-size: 12.5px; color: var(--green-mid); line-height: 1.4; }
+
+  @media (max-width: 700px) {
+    .two-col { grid-template-columns: 1fr; }
+    .hbar-label { min-width: 130px; font-size: 11.5px; }
+    .site-header h1 { font-size: 1.6rem; }
+  }
+  @media (max-width: 500px) {
+    .tab-btn span { display: none; }
+    .tab-btn { padding: 9px 13px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="group-info">
+      <strong>Kelas: DS-48-02</strong><br>
+      <strong>Anggota Kelompok Waras:</strong><br>
+      - Khilfa Fasya Najla (103052400012)<br>
+      - Ruth Irene Caristha Sihombing (103052400045)<br>
+      - Ruqayyah Shofiyyah (103052400053)
+    </div>
+    <div class="badge-row">
+      <span class="badge">Transisi Energi & Industri Nasional</span>
+      <span class="badge">Data 2019–2025</span>
+    </div>
+    <h1>EV Indonesia: <span>Tren Melesat,</span><br>Tantangan Nyata</h1>
+    <p class="header-sub">Visualisasi interaktif pertumbuhan, infrastruktur, hambatan, dan target kendaraan listrik nasional 2020–2034</p>
+  </div>
+  <div class="hero-metrics header-inner" style="max-width:1100px;margin:1.5rem auto 0;padding:0;">
+    <div class="hero-metric">
+      <div class="hero-metric-val">333.561</div>
+      <div class="hero-metric-label">Total EV 2025 (semua jenis)</div>
+    </div>
+    <div class="hero-metric">
+      <div class="hero-metric-val">+54.856%</div>
+      <div class="hero-metric-label">Pertumbuhan mobil listrik 2020→2024</div>
+    </div>
+    <div class="hero-metric">
+      <div class="hero-metric-val">&lt;0,2%</div>
+      <div class="hero-metric-label">Pangsa EV dari 172,9 juta kendaraan</div>
+    </div>
+    <div class="hero-metric">
+      <div class="hero-metric-val">64:1</div>
+      <div class="hero-metric-label">Rasio EV per SPKLU (vs Singapura 4:1)</div>
+    </div>
+    <div class="hero-metric">
+      <div class="hero-metric-val">2060</div>
+      <div class="hero-metric-label">Target Net Zero Emission Indonesia</div>
+    </div>
+  </div>
+</header>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- TAB NAV -->
+  <nav class="tab-nav" role="tablist" aria-label="Navigasi bagian dashboard">
+    <button class="tab-btn active" role="tab" aria-selected="true" onclick="showTab('pertumbuhan',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+      <span>Pertumbuhan EV</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" onclick="showTab('infrastruktur',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13" cy="6" r="3"/><path d="M13 9v6M9 21h8l-1-6H10l-1 6z"/><path d="M7 21H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2h-2"/></svg>
+      <span>Infrastruktur SPKLU</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" onclick="showTab('tantangan',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span>Tantangan Nyata</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" onclick="showTab('target',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      <span>Target 2030</span>
+    </button>
+  </nav>
+
+  <!-- ══ PERTUMBUHAN ══ -->
+  <section id="sec-pertumbuhan" class="section active" role="tabpanel" aria-label="Pertumbuhan EV">
+
+    <div class="context-band">
+      <div class="context-item">
+        <div class="big-num">150 juta ton</div>
+        <p>Emisi CO₂e sektor transportasi Indonesia (2022)</p>
+      </div>
+      <div class="context-item">
+        <div class="big-num">23%</div>
+        <p>Kontribusi transportasi terhadap total emisi GRK nasional — terbesar kedua</p>
+      </div>
+      <div class="context-item">
+        <div class="big-num">32%</div>
+        <p>Target pengurangan emisi GRK 2030 secara mandiri (Enhanced NDC)</p>
+      </div>
+    </div>
+
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-label">Total EV 2025</div>
+        <div class="metric-value">333.561</div>
+        <div class="metric-sub">+61% dari 2024</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Mobil listrik (Agt 2024)</div>
+        <div class="metric-value">68.695</div>
+        <div class="metric-sub">+54.856% vs tahun 2020</div>
+      </div>
+      <div class="metric-card teal">
+        <div class="metric-label">Motor listrik (Agt 2024)</div>
+        <div class="metric-value">167.864</div>
+        <div class="metric-sub">+4.984% vs tahun 2020</div>
+      </div>
+      <div class="metric-card amber">
+        <div class="metric-label">Penjualan BEV 2024</div>
+        <div class="metric-value">43.188</div>
+        <div class="metric-sub warn">+151,5% vs 2023</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Total populasi kendaraan listrik 2019–2025</div>
+        <div class="chart-sub">Semua jenis EV (motor, mobil, bus, kendaraan khusus) · Sumber: Kemenperin/KESDM Gatrik Feb 2026</div>
+      </div>
+      <div class="chart-legend">
+        <span><span class="legend-swatch" style="background:#092B31"></span>Total EV (unit)</span>
+      </div>
+      <div class="canvas-wrap" style="height:250px">
+        <canvas id="chartTotal" role="img" aria-label="Grafik garis total populasi EV Indonesia 2019 hingga 2025 dari 1.437 unit menjadi 333.561 unit">
+          Total EV: 2019=1.437, 2020=3.894, 2021=15.883, 2022=41.743, 2023=116.439, 2024=207.478, 2025=333.561
+        </canvas>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Penjualan wholesales BEV 2020–2025</div>
+          <div class="chart-sub">Sumber: GAIKINDO 2024–2025</div>
+        </div>
+        <div class="chart-legend">
+          <span><span class="legend-swatch" style="background:#1D8A92"></span>Unit terjual</span>
+        </div>
+        <div class="canvas-wrap" style="height:210px">
+          <canvas id="chartBEV" role="img" aria-label="Bar chart penjualan BEV dari 125 unit tahun 2020 menjadi 103.931 unit tahun 2025">
+            2020=125, 2021=687, 2022=10.327, 2023=17.051, 2024=43.188, 2025=103.931
+          </canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Populasi mobil vs motor listrik</div>
+          <div class="chart-sub">2020–2024 · Sumber: PLN RUPTL 2025–2034</div>
+        </div>
+        <div class="chart-legend">
+          <span><span class="legend-swatch" style="background:#1D8A92"></span>Motor listrik</span>
+          <span><span class="legend-swatch" style="background:#092B31"></span>Mobil listrik</span>
+        </div>
+        <div class="canvas-wrap" style="height:210px">
+          <canvas id="chartMobMot" role="img" aria-label="Bar chart perbandingan populasi mobil dan motor listrik 2020 hingga 2024">
+            Mobil: 125, 819, 11.137, 28.199, 68.695. Motor: 3.325, 13.871, 31.069, 93.478, 167.864
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="source-note">
+      <strong>Sumber data:</strong><br>
+      [1] Kemenperin/KESDM Gatrik — Perkembangan Industri KBLBB, Feb 2026 | gatrik.esdm.go.id<br>
+      [2] PLN RUPTL 2025–2034 — Proyeksi Populasi EV | esdm.go.id<br>
+      [3] GAIKINDO — Data Wholesale BEV 2020–2025 | gaikindo.or.id<br>
+      [4] IESR — Indonesia Energy Transition Outlook 2024 | iesr.or.id
+    </div>
+  </section>
+
+  <!-- ══ INFRASTRUKTUR ══ -->
+  <section id="sec-infrastruktur" class="section" role="tabpanel" aria-label="Infrastruktur SPKLU">
+
+    <div class="metric-grid">
+      <div class="metric-card teal">
+        <div class="metric-label">SPKLU aktif (2025)</div>
+        <div class="metric-value">4.655</div>
+        <div class="metric-sub">Target 2025: 5.800 unit</div>
+      </div>
+      <div class="metric-card teal">
+        <div class="metric-label">Home Charging Services 2025</div>
+        <div class="metric-value">70.250</div>
+        <div class="metric-sub">+148% dari 2024</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Konsumsi SPKLU 2024</div>
+        <div class="metric-value">9,1 juta kWh</div>
+        <div class="metric-sub">+370% year-on-year</div>
+      </div>
+      <div class="metric-card amber">
+        <div class="metric-label">Target SPKLU nasional 2030</div>
+        <div class="metric-value">63.000</div>
+        <div class="metric-sub warn">Realisasi kini: 7,4% tercapai</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Pertumbuhan SPKLU 2021–2025</div>
+        <div class="chart-sub">Stasiun Pengisian Kendaraan Listrik Umum · Sumber: PLN Press Release 2025–2026</div>
+      </div>
+      <div class="chart-legend">
+        <span><span class="legend-swatch" style="background:#1D4E5B"></span>Jumlah SPKLU (unit)</span>
+      </div>
+      <div class="canvas-wrap" style="height:230px">
+        <canvas id="chartSPKLU" role="img" aria-label="Bar chart pertumbuhan SPKLU dari 63 unit tahun 2021 menjadi 4.655 unit tahun 2025">
+          SPKLU: 2021=63, 2022=139, 2023=624, 2024=3.233, 2025=4.655
+        </canvas>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Rasio EV per SPKLU — perbandingan internasional (2024)</div>
+          <div class="chart-sub">Semakin kecil angka, semakin baik kerapatan infrastruktur</div>
+        </div>
+        <div style="margin-top:16px">
+          <div class="cmp-row">
+            <span class="cmp-country">🇮🇩 Indonesia</span>
+            <div class="cmp-track"><div class="cmp-fill" style="width:100%;background:#9D4341">64 : 1</div></div>
+          </div>
+          <div class="cmp-row">
+            <span class="cmp-country">🇨🇳 Tiongkok</span>
+            <div class="cmp-track"><div class="cmp-fill" style="width:9.4%;background:#E09FA0;min-width:60px">6 : 1</div></div>
+          </div>
+          <div class="cmp-row">
+            <span class="cmp-country">🇸🇬 Singapura</span>
+            <div class="cmp-track"><div class="cmp-fill" style="width:6.25%;background:#1D4E5B;min-width:60px">4 : 1</div></div>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:12px;font-style:italic">Indonesia tertinggal 16x dari Singapura dalam kerapatan infrastruktur pengisian daya</p>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Distribusi SPKLU per pulau (April 2024)</div>
+          <div class="chart-sub">Total 1.380 unit · Sumber: Databoks Katadata</div>
+        </div>
+        <div class="donut-wrap" style="margin-top:12px;flex-direction:column;align-items:flex-start;gap:10px">
+          <div class="canvas-wrap" style="height:180px">
+            <canvas id="chartDistrib" role="img" aria-label="Donut chart distribusi SPKLU per pulau: Jawa 70 persen mendominasi">
+              Jawa 70%, Sumatera 12%, Bali-NT 8,4%, Sulawesi 4,6%, Kalimantan 3,9%, Lainnya 1,1%
+            </canvas>
+          </div>
+          <div class="chart-legend" style="flex-wrap:wrap">
+            <span><span class="legend-swatch" style="background:#092B31"></span>Jawa 70%</span>
+            <span><span class="legend-swatch" style="background:#1D8A92"></span>Sumatera 12%</span>
+            <span><span class="legend-swatch" style="background:#1D4E5B"></span>Bali-NT 8,4%</span>
+            <span><span class="legend-swatch" style="background:#57767A"></span>Sulawesi 4,6%</span>
+            <span><span class="legend-swatch" style="background:#7E9C9F"></span>Kalimantan 3,9%</span>
+            <span><span class="legend-swatch" style="background:#9DBBBF"></span>Lainnya 1,1%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="source-note">
+      <strong>Sumber data:</strong><br>
+      [5] PLN Press Release No.030.PR/STH.01.05/II/2025, Feb 2025 | web.pln.co.id<br>
+      [6] PLN Siaran Pers Feb 2026 — SPKLU 4.655 unit | web.pln.co.id<br>
+      [7] KESDM RI / Ditjen Gatrik — Target 63.000 SPKLU 2030 | esdm.go.id<br>
+      [8] Databoks Katadata — Distribusi SPKLU per Pulau, Apr 2024 | databoks.katadata.co.id
+    </div>
+  </section>
+
+  <!-- ══ TANTANGAN ══ -->
+  <section id="sec-tantangan" class="section" role="tabpanel" aria-label="Tantangan Nyata">
+
+    <div class="metric-grid">
+      <div class="metric-card red">
+        <div class="metric-label">Pangsa EV nasional (2024)</div>
+        <div class="metric-value">&lt;0,2%</div>
+        <div class="metric-sub warn">dari 172,93 juta kendaraan</div>
+      </div>
+      <div class="metric-card red">
+        <div class="metric-label">Range anxiety</div>
+        <div class="metric-value">65%</div>
+        <div class="metric-sub warn">konsumen khawatir baterai habis</div>
+      </div>
+      <div class="metric-card amber">
+        <div class="metric-label">Penghentian subsidi motor</div>
+        <div class="metric-value">Akhir 2024</div>
+        <div class="metric-sub warn">perlambatan penjualan motor listrik</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Pengguna lebih suka</div>
+        <div class="metric-value">59%</div>
+        <div class="metric-sub">isi daya di rumah (home charging)</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Kekhawatiran konsumen terhadap kendaraan listrik</div>
+        <div class="chart-sub">Survei Populix, Maret 2024 (n=350) — Jabodetabek, Bandung, Surabaya, Medan, Makassar</div>
+      </div>
+      <div style="margin-top:14px">
+        <div class="hbar-row">
+          <span class="hbar-label">Baterai habis di jalan</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:65%;background:#9D4341">65%</div></div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-label">Jarak tempuh terbatas</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:61%;background:#9D4341">61%</div></div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-label">Waktu pengisian daya lama</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:49%;background:#E09FA0">49%</div></div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-label">Fasilitas charging minim</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:43%;background:#E09FA0">43%</div></div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-label">SPKLU sulit dijangkau</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:42%;background:#E09FA0">42%</div></div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-label">Harga kendaraan lebih mahal</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:33%;background:#7E9C9F">33%</div></div>
+        </div>
+        <div class="hbar-row">
+          <span class="hbar-label">Akses terbatas di daerah</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:27%;background:#7E9C9F">27%</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Pangsa EV vs kendaraan konvensional (2024)</div>
+        <div class="chart-sub">BPS 2023 + Kemenperin 2024 — kontras yang sangat mencolok</div>
+      </div>
+      <div class="donut-wrap" style="margin-top:14px">
+        <div class="donut-canvas-wrap" style="width:160px;height:160px">
+          <canvas id="chartDonut" role="img" aria-label="Donut chart menunjukkan EV hanya kurang dari 0,2 persen dari total kendaraan bermotor nasional">
+            EV 0,12%, Kendaraan konvensional 99,88%
+          </canvas>
+        </div>
+        <div class="donut-detail">
+          <p>Kendaraan Listrik (EV)</p>
+          <span class="donut-num" style="color:var(--green-dark)">&lt;0,2%</span>
+          <p>Kendaraan konvensional</p>
+          <span class="donut-num" style="color:var(--text-primary)">&gt;99,8%</span>
+          <p style="margin-top:8px;font-size:12px;color:var(--text-muted)">Dari 172,93 juta total kendaraan nasional</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="source-note">
+      <strong>Sumber data:</strong><br>
+      [9] Survei Populix, Maret 2024 (n=350) | populix.co / goodstats.id<br>
+      [10] BPS 2023 — Jumlah Kendaraan Bermotor Menurut Provinsi | bps.go.id<br>
+      [11] Kemenperin / KESDM EBTKE 2025 — Populasi EV | kemenperin.go.id<br>
+      [12] Kompas Otomotif, Apr 2026 — Harga kendaraan listrik masih jadi hambatan | otomotif.kompas.com
+    </div>
+  </section>
+
+  <!-- ══ TARGET 2030 ══ -->
+  <section id="sec-target" class="section" role="tabpanel" aria-label="Target 2030">
+
+    <div class="metric-grid">
+      <div class="metric-card amber">
+        <div class="metric-label">Target mobil listrik 2030</div>
+        <div class="metric-value">2 juta</div>
+        <div class="metric-sub warn">Realisasi 2025: ~106.137 unit</div>
+      </div>
+      <div class="metric-card amber">
+        <div class="metric-label">Target motor listrik 2030</div>
+        <div class="metric-value">13 juta</div>
+        <div class="metric-sub warn">Realisasi 2025: ~225.647 unit</div>
+      </div>
+      <div class="metric-card amber">
+        <div class="metric-label">Target SPKLU 2030</div>
+        <div class="metric-value">63.000</div>
+        <div class="metric-sub warn">Realisasi 2025: 4.655 unit</div>
+      </div>
+      <div class="metric-card teal">
+        <div class="metric-label">Reduksi emisi jika target tercapai</div>
+        <div class="metric-value">7,23 juta</div>
+        <div class="metric-sub">ton CO₂ per tahun (KESDM)</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Gap realisasi vs target 2030 — 4 tahun tersisa</div>
+        <div class="chart-sub">Sumber: KESDM RI | Kemenperin | PLN RUPTL 2025–2034</div>
+      </div>
+      <div style="margin-top:18px">
+        <div class="prog-block">
+          <div class="prog-meta">
+            <span>Mobil listrik — realisasi ~106.137 unit</span>
+            <span class="prog-gap">Gap -94,7%</span>
+          </div>
+          <div class="prog-track">
+            <div class="prog-fill" style="width:5.3%">5,3%</div>
+            <span class="prog-target">Target: 2.000.000 unit</span>
+          </div>
+        </div>
+        <div class="prog-block">
+          <div class="prog-meta">
+            <span>Motor listrik — realisasi ~225.647 unit</span>
+            <span class="prog-gap">Gap -98,3%</span>
+          </div>
+          <div class="prog-track">
+            <div class="prog-fill" style="width:1.7%;min-width:50px">1,7%</div>
+            <span class="prog-target">Target: 13.000.000 unit</span>
+          </div>
+        </div>
+        <div class="prog-block">
+          <div class="prog-meta">
+            <span>SPKLU — realisasi 4.655 unit</span>
+            <span class="prog-gap">Gap -92,6%</span>
+          </div>
+          <div class="prog-track">
+            <div class="prog-fill" style="width:7.4%">7,4%</div>
+            <span class="prog-target">Target: 63.000 unit</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-title">Roadmap nasional — timeline EV Indonesia</div>
+        <div class="chart-sub">Tonggak capaian dan target · Sumber: KESDM RI / NDC / PLN RUPTL</div>
+      </div>
+      <div class="canvas-wrap" style="height:250px;margin-top:10px">
+        <canvas id="chartRoadmap" role="img" aria-label="Bar chart roadmap populasi EV dari 2020 hingga proyeksi 2030 dan 2034">
+          2020=3.894, 2021=15.883, 2022=41.743, 2023=116.439, 2024=207.478, 2025=333.561, 2030=15.000.000 (target), 2034=2.880.000 (proj. PLN)
+        </canvas>
+      </div>
+    </div>
+
+    <div class="section-heading">3 Rekomendasi utama</div>
+    <div class="rec-card">
+      <div class="rec-num">1</div>
+      <div class="rec-body">
+        <h4>Akselerasi SPKLU di luar Jawa</h4>
+        <p>Saat ini 70% SPKLU terkonsentrasi di Jawa. Regulasi Kepmen ESDM No.24.K/2025 mewajibkan pembangunan SPKLU di wilayah non-padat, namun perlu implementasi lebih agresif di Sumatera, Kalimantan, Sulawesi, dan wilayah Indonesia timur agar adopsi EV merata secara nasional.</p>
+      </div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-num">2</div>
+      <div class="rec-body">
+        <h4>Hilirisasi baterai nikel lokal</h4>
+        <p>Indonesia memiliki 23% cadangan nikel dunia — bahan baku utama baterai EV. Percepatan pengolahan dari nikel mentah menjadi sel baterai dan baterai jadi di dalam negeri akan menekan harga kendaraan listrik dan memperkuat ketahanan rantai pasok lokal.</p>
+      </div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-num">3</div>
+      <div class="rec-body">
+        <h4>Literasi publik EV secara masif</h4>
+        <p>65% konsumen masih mengkhawatirkan baterai habis di jalan (range anxiety). Program edukasi yang menyasar masyarakat luas — terutama di luar kota-kota besar — tentang teknologi EV, jangkauan nyata kendaraan, dan cara penggunaan SPKLU perlu ditingkatkan secara signifikan.</p>
+      </div>
+    </div>
+
+    <div class="source-note">
+      <strong>Sumber data:</strong><br>
+      [13] KESDM RI / Kemenko Marves — Target EV 2030 | esdm.go.id<br>
+      [14] Kemenperin BKPM, Jan 2025 — Target produksi KBLBB 2030 | kemenperin.go.id<br>
+      [15] PLN RUPTL 2025–2034 — Proyeksi 2,88 juta unit 2034 | esdm.go.id<br>
+      [16] Enhanced NDC Indonesia — Komitmen penurunan emisi GRK 2030 | ndcpartnership.org
+    </div>
+  </section>
+
+</main>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <strong style="color:rgba(255,255,255,0.8)">EV Indonesia: Tren Melesat, Tantangan Nyata</strong><br>
+  Kelas: DS-48-02 | Anggota Kelompok Waras: Khilfa Fasya Najla (103052400012), Ruth Irene Caristha Sihombing (103052400045), Ruqayyah Shofiyyah (103052400053)<br>
+  Kategori: Transisi Energi &amp; Industri Nasional<br>
+  Sumber: PLN RUPTL 2025–2034 | Kemenperin | GAIKINDO | KESDM RI | BPS 2023 | Survei Populix 2024 | IESR 2024 | Databoks Katadata
+</footer>
+
+<script>
+/* ── TAB SWITCH ── */
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-selected','false');
+  });
+  document.getElementById('sec-' + id).classList.add('active');
+  btn.classList.add('active');
+  btn.setAttribute('aria-selected','true');
+}
+
+/* ── CHART DEFAULTS ── */
+const gc = '#B7D8DD';
+const tc = '#57767A';
+
+const baseOpts = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: { legend: { display: false } },
+  scales: {
+    x: { grid: { color: gc }, ticks: { color: tc, font: { size: 11, family: 'Inter' } } },
+    y: { grid: { color: gc }, ticks: { color: tc, font: { size: 11, family: 'Inter' }, callback: v => v >= 1000000 ? (v/1000000).toFixed(1)+'jt' : v >= 1000 ? (v/1000).toFixed(0)+'K' : v } }
+  }
+};
+
+const fmtID = v => v.toLocaleString('id-ID') + ' unit';
+
+/* ── TOTAL EV LINE ── */
+new Chart(document.getElementById('chartTotal'), {
+  type: 'line',
+  data: {
+    labels: ['2019','2020','2021','2022','2023','2024','2025'],
+    datasets: [{
+      label: 'Total EV',
+      data: [1437, 3894, 15883, 41743, 116439, 207478, 333561],
+      borderColor: '#092B31',
+      backgroundColor: 'rgba(9,43,49,0.07)',
+      fill: true,
+      tension: 0.4,
+      pointBackgroundColor: '#092B31',
+      pointRadius: 5,
+      pointHoverRadius: 7
+    }]
+  },
+  options: {
+    ...baseOpts,
+    plugins: { ...baseOpts.plugins, tooltip: { callbacks: { label: ctx => ' ' + fmtID(ctx.parsed.y) } } }
+  }
+});
+
+/* ── PENJUALAN BEV ── */
+new Chart(document.getElementById('chartBEV'), {
+  type: 'bar',
+  data: {
+    labels: ['2020','2021','2022','2023','2024','2025'],
+    datasets: [{
+      label: 'Penjualan BEV',
+      data: [125, 687, 10327, 17051, 43188, 103931],
+      backgroundColor: ['#DBEAEB','#B7D8DD','#9DBBBF','#7E9C9F','#1D4E5B','#092B31'],
+      borderRadius: 5
+    }]
+  },
+  options: {
+    ...baseOpts,
+    plugins: { ...baseOpts.plugins, tooltip: { callbacks: { label: ctx => ' ' + fmtID(ctx.parsed.y) } } }
+  }
+});
+
+/* ── MOB vs MOT ── */
+new Chart(document.getElementById('chartMobMot'), {
+  type: 'bar',
+  data: {
+    labels: ['2020','2021','2022','2023','2024'],
+    datasets: [
+      { label: 'Motor listrik', data: [3325,13871,31069,93478,167864], backgroundColor: 'rgba(29,138,146,0.82)', borderRadius: 4 },
+      { label: 'Mobil listrik',  data: [125,819,11137,28199,68695],    backgroundColor: 'rgba(9,43,49,0.82)', borderRadius: 4 }
+    ]
+  },
+  options: {
+    ...baseOpts,
+    plugins: { ...baseOpts.plugins, tooltip: { callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + fmtID(ctx.parsed.y) } } }
+  }
+});
+
+/* ── SPKLU BAR ── */
+new Chart(document.getElementById('chartSPKLU'), {
+  type: 'bar',
+  data: {
+    labels: ['2021','2022','2023','2024','2025'],
+    datasets: [{
+      data: [63, 139, 624, 3233, 4655],
+      backgroundColor: ['rgba(29,78,91,0.45)','rgba(29,78,91,0.55)','rgba(29,78,91,0.7)','rgba(29,78,91,0.9)','rgba(29,78,91,1)'],
+      borderRadius: 5
+    }]
+  },
+  options: {
+    ...baseOpts,
+    plugins: { ...baseOpts.plugins, tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y.toLocaleString('id-ID') + ' unit SPKLU' } } }
+  }
+});
+
+/* ── DISTRIBUSI DONUT ── */
+new Chart(document.getElementById('chartDistrib'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Jawa','Sumatera','Bali-Nusa Tenggara','Sulawesi','Kalimantan','Lainnya'],
+    datasets: [{
+      data: [70, 12, 8.4, 4.6, 3.9, 1.1],
+      backgroundColor: ['#092B31','#1D8A92','#1D4E5B','#57767A','#7E9C9F','#9DBBBF'],
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    cutout: '62%',
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ' ' + ctx.label + ': ' + ctx.parsed + '%' } }
+    }
+  }
+});
+
+/* ── EV vs KONVENSIONAL DONUT ── */
+new Chart(document.getElementById('chartDonut'), {
+  type: 'doughnut',
+  data: {
+    labels: ['EV (~207.478 unit)','Kendaraan konvensional (~172,7 juta)'],
+    datasets: [{
+      data: [0.12, 99.88],
+      backgroundColor: ['#092B31','#DBEAEB'],
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    cutout: '68%',
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ' ' + ctx.label } }
+    }
+  }
+});
+
+/* ── ROADMAP BAR ── */
+new Chart(document.getElementById('chartRoadmap'), {
+  type: 'bar',
+  data: {
+    labels: ['2020','2021','2022','2023','2024','2025','2030\n(target)','2034\n(proyeksi)'],
+    datasets: [
+      {
+        label: 'Realisasi',
+        data: [3894, 15883, 41743, 116439, 207478, 333561, null, null],
+        backgroundColor: '#1D4E5B',
+        borderRadius: 4
+      },
+      {
+        label: 'Target / Proyeksi',
+        data: [null, null, null, null, null, null, 15000000, 2880000],
+        backgroundColor: 'rgba(157,67,65,0.75)',
+        borderRadius: 4
+      }
+    ]
+  },
+  options: {
+    ...baseOpts,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString('id-ID') + ' unit'
+        }
+      }
+    },
+    scales: {
+      x: { ...baseOpts.scales.x, ticks: { ...baseOpts.scales.x.ticks, maxRotation: 0 } },
+      y: { ...baseOpts.scales.y }
+    }
+  }
+});
+</script>
+</body>
+</html>
